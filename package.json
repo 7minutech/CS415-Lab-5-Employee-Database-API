@@ -1,0 +1,26 @@
+{
+  "name": "lab05",
+  "version": "1.0.0",
+  "description": "Implementing an API should define an endpoint to allow the user to fetch, add, update, and delete a set of employee records",
+  "main": "index.js",
+  "tyep": "module",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/7minutech/CS415-Lab-5-Employee-Database-API.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/7minutech/CS415-Lab-5-Employee-Database-API/issues"
+  },
+  "homepage": "https://github.com/7minutech/CS415-Lab-5-Employee-Database-API#readme",
+  "dependencies": {
+    "express": "^4.21.2"
+  },
+  "devDependencies": {
+    "jest": "^30.1.3"
+  }
+}
