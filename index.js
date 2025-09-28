@@ -36,8 +36,8 @@ app.post("/employee", (req, res) => {
         res.send({success: false})
         return
     }
-    if (!(valid_employee)){
-        console.log("error: Post request employee json was not valid")
+    if (!(valid_employee(req.body))){
+        console.log("error: POST request employee json was not valid")
         res.send({success: false})
         return
     }
@@ -47,6 +47,25 @@ app.post("/employee", (req, res) => {
     newEmployee.id = next_id
     employee_db.push(newEmployee)
     res.send({"success": true, "employee": employee_db[index]})
+})
+
+app.put("/employee", (req, res) => {
+    res.set("Content-Type", "application/json")
+    if (req.get("Content-Type") != "application/json"){
+        console.log("error: PUT request was not json")
+        res.send({success: false})
+        return
+    }
+    if (!(valid_employee(req.body))){
+        console.log("error: PUT request employee json was not valid")
+        res.send({success: false})
+        return
+    }
+    let employee = req.body
+    let index = employee.id - 1
+    let old_employee = {...employee_db[index]}
+    employee_db[index] = employee
+    res.send({"success": true, "updated_employee": employee_db[index], "old_employee": old_employee})
 })
 
 app.listen(port, () => {
