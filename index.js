@@ -43,8 +43,13 @@ app.post("/employee", (req, res) => {
     }
     let index = employee_db.length
     let next_id = index + 1
-    let newEmployee = req.body
-    newEmployee.id = next_id
+    let req_json = req.body
+    let newEmployee = {
+        id: next_id,
+        name: req_json.name,
+        salary: req_json.salary,
+        age: req_json.age
+    }
     employee_db.push(newEmployee)
     res.send({"success": true, "employee": employee_db[index]})
 })
