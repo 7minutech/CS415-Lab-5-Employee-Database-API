@@ -22,6 +22,11 @@ app.get("/employee/:id?", (req, res) => {
     const id = req.params.id;
     res.set('Content-Type', 'application/json');
     if (id) {
+        if (!(valid_id(id))){
+            console.log("error: GET request to invalid id")
+            res.status(400).send({success: false, description: "GET request to invalid id"})
+            return
+        }
         res.send(employee_db[id - 1])
     }
     else {
@@ -33,12 +38,12 @@ app.post("/employee", (req, res) => {
     res.set("Content-Type", "application/json")
     if (req.get("Content-Type") != "application/json"){
         console.log("error: POST request was not json")
-        res.send({success: false})
+        res.status(400).send({success: false, description: "POST request was not json"})
         return
     }
     if (!(valid_employee(req.body))){
         console.log("error: POST request employee json was not valid")
-        res.send({success: false})
+        res.status(400).send({success: false, description: "POST request employee json was not valid"})
         return
     }
     let index = employee_db.length
@@ -58,15 +63,21 @@ app.put("/employee", (req, res) => {
     res.set("Content-Type", "application/json")
     if (req.get("Content-Type") != "application/json"){
         console.log("error: PUT request was not json")
-        res.send({success: false})
+        res.status(400).send({success: false, desciption: "PUT request was not json"})
         return
     }
     if (!(valid_employee(req.body))){
         console.log("error: PUT request employee json was not valid")
-        res.send({success: false})
+        res.status(400).send({success: false, desciption: "PUT request employee json was not valid"})
         return
     }
+    
     let employee = req.body
+    if (!(valid_id(employee.id))){
+            console.log("error: PUT request to invalid id")
+            res.status(400).send({success: false, description: "PUT request to invalid id"})
+            return
+    }
     let index = employee.id - 1
     let old_employee = {...employee_db[index]}
     employee_db[index] = employee
@@ -78,7 +89,7 @@ app.delete("/employee/:id", (req, res) => {
     let id = req.params.id
     if (!valid_id(id)){
         console.log("error: DELETE request had invalid id")
-        res.send({success: false})
+        res.status(400).send({success: false, description: "DELETE request had invalid id"})
         return
     }
     let index = id - 1
