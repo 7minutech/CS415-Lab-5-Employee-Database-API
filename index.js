@@ -14,7 +14,7 @@ var counter = 0
 
 app.all('/', (request, response) => {
 response.set('Content-Type', 'text/html');
-response.send("<h1>Home</h1>");
+response.send("<h1>Employee DB</h1>");
 });
 
 app.get("/employee/:id?", (req, res) => {
@@ -68,6 +68,20 @@ app.put("/employee", (req, res) => {
     res.send({"success": true, "updated_employee": employee_db[index], "old_employee": old_employee})
 })
 
+app.delete("/employee/:id", (req, res) => {
+    res.set("Content-Type", "application/json")
+    let id = req.params.id
+    if (!valid_id(id)){
+        console.log("error: DELETE request had invalid id")
+        res.send({success: false})
+        return
+    }
+    let index = id - 1
+    employee_db.splice(index, 1)
+    decrement_ids(index)
+    res.send({"success": true})
+})
+
 app.listen(port, () => {
 console.log(`Express ${version} Listening on Port ${port}`);
 });
@@ -86,4 +100,17 @@ function valid_employee(employee) {
         return false
     }
     return true
+}
+
+function valid_id(id){
+    let first_id = 1
+    let last_id = employee_db.length
+    return ((first_id <= id) && (id <= last_id))
+}
+
+function decrement_ids(starting_index){
+    for (let i = starting_index; i < employee_db.length; i++){
+        let employee = employee_db[i]
+        employee.id--
+    }
 }
