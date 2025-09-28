@@ -16,11 +16,11 @@ curl -X PUT http://localhost:8080/employee \
 echo
 echo "Request to DELETE /employee"
 echo "Before Deletion"
-curl http://localhost:8080/employee/24
-curl -X DELETE http://localhost:8080/employee/24
+curl http://localhost:8080/employee/21
+curl -X DELETE http://localhost:8080/employee/21
 echo
 echo "After Deletion"
-curl http://localhost:8080/employee/24
+curl http://localhost:8080/employee/21
 
 
 
